@@ -1,21 +1,3 @@
-/********************************************
-** File: Proj1.cpp
-** Project: CMSC 202 Project 1, Spring 2020
-** Author: Rooklyn Kline
-** Date: 2/25/19
-** Section: 23
-** E-mail: rkline2@umbc.edu
-**
-** This program is based off of the game "fifteen"
-** where the user will be manipulating a scrambled board.    
-** The user must have the tiles in decending order from  
-** the left-hand corner to the bottom right-hand corner. 
-** The program will detect if the user has won the game or not
-** as well as many other input validations.  
-**
-*********************************************/
-
-
 #include <iostream>
 #include <ctime>
 #include <fstream>
@@ -25,94 +7,49 @@
 using namespace std;
 
 
-const int MAXCHAR = 80; // maximum amount of characters 
-const int MAXROW = 4; // maximum amount of rows 
-const int MAXCOL = 4; // maximum amount of columns
-const int MAXELMNT = 16; // heighest amount of elements in a array
-const char WINNER = 'W'; // used to determine if the user has won
-const char LOSER = 'L'; // used to determine if the user has lost
-const char YES = 'y'; // user input responce
-const char NO = 'n'; // user input responce
-const char WRONGVAL = '!'; // indicates the user has entered a wrong value
-const char TR_EDGE = '}'; // represents the user selecting the top right corner
-const char TL_EDGE = '{'; // represents the user selecting the top left corner
-const char BL_EDGE = '('; // represents the user selecting the bottom left corner 
-const char BR_EDGE = ')'; // represents the user selecting the bottom right edge
-const char T_SIDE = '^'; // represents the user selecting the top edge
-const char B_SIDE = '_'; // represents the user selecting the bottom edge
-const char L_SIDE = '['; // represents the user selecting the left edge
-const char R_SIDE = ']'; // represents the user selecting the right edge
-const char CENTER = '-'; // represents the user selecting a center piece
-const int ZEROMKR = 0; // used to find the zero from the board
-const int TENDIGIT = 10; // determins the number of digits from an element on the board 
-const char SPACE = ' '; // used the space out the numbers on the board  
-const char H_BAR = '|'; // used for decorating the board
-const char B_BAR = '_'; // used for decorating the board
-const char BAR = '-'; // used for decorating the board
-const char PERIOD = '.'; // indicates the row and column numbers on the board
-const int FIFTHELMT = 5; // used to print a special char one every five times
+const int MAXCHAR = 80;
+const int MAXROW = 4;
+const int MAXCOL = 4;
+const int MAXELMNT = 16;
+const char WINNER = 'W';
+const char LOSER = 'L';
+const char YES = 'y';
+const char NO = 'n';
+const char WRONGVAL = '!';
+const int TWOVAL = 2;
+const char TR_EDGE = '}';
+const char TL_EDGE = '{';
+const char BL_EDGE = '(';
+const char BR_EDGE = ')';
+const char T_SIDE = '^';
+const char B_SIDE = '_';
+const char L_SIDE = '[';
+const char R_SIDE = ']';
+const char CENTER = '-';
+const int ZEROMKR = 0;
+const int TENDIGIT = 10;
+const char SPACE = ' ';
+const char H_BAR = '|';
+const char B_BAR = '_';
+const char BAR = '-';
+const char PERIOD = '.';
 
-// startGame
-// Given the default board, changes the board based on a .txt file 
+
 void startGame(int board[MAXROW][MAXCOL]);
-
-// selectTile
-// Given the board, determines the correct coordinates the user has entered
 void selectTile(int board[MAXROW][MAXCOL]);
-
-// swapTile
-// Given the board and the user's entered row and column, it will swap
-// the tile with the 'zero' tile 
 void swapTile(int board[MAXROW][MAXCOL], int usrRow, int usrCol);
-
-// checkDirection
-// Given the board and the user's entered row and column, it will dsetermine if
-// the coordinates are valid
 bool checkDirection(int board[MAXROW][MAXCOL], int usrRow, int usrCol);
-
-// printBoard
-// Given the board, prints out the current board
 void printBoard(int board[MAXROW][MAXCOL]);
-
-// getBoard
-// Given the filename, maximum element and the board, 
-// it will modify the board based on the values in the .txt file 
 void getBoard(char fileName[], int size, int board[MAXROW][MAXCOL]);
-
-// checkWinner
-// Given board, ckecks to see if the user has won the game
 char checkWinner(int board[MAXROW][MAXCOL]);
-
-// playGame
-// This function is the main foundation of the game
-// it allows the user to play the game if they wish to do so 
 void playGame();
-
-// findLen
-// Given an array of characters or a number, returns the 
-// length of the word or the amount of digits in the number 
 int findLen(char list[MAXELMNT]);
 int findLen(int testNum);
-
-// playAgain
-// returns a value which determins if the user wants to play again
 char playAgain();
-
-// findLocation
-// Given the entered row and columnn, returns 
-// the location of the tile 
 char findLocation(int usrRow, int usrCol);
-
-// addSpaces
-// Given an integer, prints the desired amount of spaces 
 void addSpaces(int maxspace);
-
-// createBar 
-// given the length of the bar, symbor and/or the amount of spaces
-// will print a line of the desired symbol for the board
 void createBar(int barLim, char symbol);
 void createBar(int barLim, char symbol, int numSpaces);
-
 
 int main()
 {
@@ -139,7 +76,6 @@ void playGame() {
     printBoard(board);
     cout << "Winner!" << endl;
 }
-
 
 void startGame(int board[MAXROW][MAXCOL]) {
     int selectBoard = 2;
@@ -212,7 +148,7 @@ void createBar(int barLim, char symbol, int numSpaces) {
             cout << H_BAR << endl;
 
         }
-        else if (bar % FIFTHELMT == 0) {
+        else if (bar % 5 == 0) {
             cout << H_BAR;
         }
         else if (bar == 1) {
@@ -263,7 +199,9 @@ void printBoard(int board[MAXROW][MAXCOL]) {
                 cout << board[row][col] << SPACE << H_BAR;
             }
         }
+
         createBar(underBarLim, BAR, 0);
+
     }
 }
 
@@ -333,6 +271,7 @@ void selectTile(int board[MAXROW][MAXCOL]) {
     bool isValidCoord = true;
     do
     {
+        // print board
         printBoard(board);
         cout << "What is the row (left) and column (top) to slide?" << endl;
         cin >> usrRow;
@@ -340,7 +279,6 @@ void selectTile(int board[MAXROW][MAXCOL]) {
         cout << "Are you sure you want to enter these values? ('Y' or 'N'): ";
         cin >> checkVal;
         cout << endl;
-        // input validation
         switch (checkVal)
         {
         case 'y':
@@ -367,8 +305,8 @@ void selectTile(int board[MAXROW][MAXCOL]) {
             }
         }
     } while (checkVal != 'Y' || isValidCoord == false);
+    cout << "You're Good!" << endl;
 
-    cout << endl;
     // Swap the tiles
     swapTile(board, usrRow, usrCol);
 }
@@ -381,63 +319,63 @@ bool checkDirection(int board[MAXROW][MAXCOL], int usrRow, int usrCol) {
     case WRONGVAL:
         break;
     case TR_EDGE:
-        // Top right corner 
+        cout << "Top Right Corner" << endl;
         if ((board[usrRow + 1][usrCol] == ZEROMKR) || (board[usrRow][usrCol - 1] == ZEROMKR)) {
             isValid = true;
         }
         break;
     case TL_EDGE:
-        // Top left corner
         if ((board[usrRow + 1][usrCol] == ZEROMKR) || (board[usrRow][usrCol + 1] == ZEROMKR)) {
             isValid = true;
         }
+        cout << "Top Left Corner" << endl;
         break;
     case BR_EDGE:
-        // Bottom right corner
         if ((board[usrRow - 1][usrCol] == ZEROMKR) || (board[usrRow][usrCol - 1] == ZEROMKR)) {
             isValid = true;
         }
+        cout << "Bottom Right Corner" << endl;
         break;
     case BL_EDGE:
-        // Bottom left corner
-        if ((board[usrRow - 1][usrCol] == ZEROMKR) || (board[usrRow][usrCol + 1] == ZEROMKR)) {
+        if ((board[usrRow + 1][usrCol] == ZEROMKR) || (board[usrRow][usrCol + 1] == ZEROMKR)) {
             isValid = true;
         }
+        cout << "Bottom Left Corner" << endl;
         break;
     case T_SIDE:
-        // Top edge
         if ((board[usrRow][usrCol + 1] == ZEROMKR) || (board[usrRow + 1][usrCol] == ZEROMKR)
             || (board[usrRow][usrCol - 1] == ZEROMKR)) {
             isValid = true;
         }
+        cout << "Top Side" << endl;
         break;
     case B_SIDE:
-        // Bottom edge
         if ((board[usrRow][usrCol - 1] == ZEROMKR) || (board[usrRow - 1][usrCol] == ZEROMKR)
             || (board[usrRow][usrCol + 1] == ZEROMKR)) {
             isValid = true;
         }
+        cout << "Bottom Side" << endl;
         break;
     case R_SIDE:
-        // Right edge
         if ((board[usrRow + 1][usrCol] == ZEROMKR) || (board[usrRow][usrCol - 1] == ZEROMKR)
             || (board[usrRow - 1][usrCol] == ZEROMKR)) {
             isValid = true;
         }
+        cout << "Right Side" << endl;
         break;
     case L_SIDE:
-        // Left edge
         if ((board[usrRow - 1][usrCol] == ZEROMKR) || (board[usrRow][usrCol + 1] == ZEROMKR)
             || (board[usrRow + 1][usrCol] == ZEROMKR)) {
             isValid = true;
         }
+        cout << "Left Side" << endl;
         break;
     default:
-        // Center
         if ((board[usrRow - 1][usrCol] == ZEROMKR) || (board[usrRow][usrCol + 1] == ZEROMKR)
             || (board[usrRow + 1][usrCol] == ZEROMKR) || (board[usrRow][usrCol - 1] == ZEROMKR)) {
             isValid = true;
         }
+        cout << "Center" << endl;
         break;
     }
     return isValid;
@@ -447,7 +385,6 @@ bool checkDirection(int board[MAXROW][MAXCOL], int usrRow, int usrCol) {
 char findLocation(int usrRow, int usrCol) {
     char findSide = CENTER;
 
-    // This locates the tile
     if ((usrRow < 0 || usrRow >= MAXROW) || (usrCol < 0 || usrCol >= MAXCOL)) {
         findSide = WRONGVAL;
     }
@@ -496,7 +433,6 @@ char findLocation(int usrRow, int usrCol) {
 char playAgain() {
     char ans[MAXELMNT] = { WRONGVAL };
     while (ans[0] == WRONGVAL) {
-        // asks if the user wants to play again
         cout << "Play again? (y/n): ";
         cin >> ans;
         int valLen = findLen(ans);
@@ -504,19 +440,16 @@ char playAgain() {
             switch (ans[0]) {
             case 'y':
             case 'Y':
-                cout << endl;
                 cout << "Loading a new game..." << endl;
                 ans[0] = 'y';
                 break;
             case 'n':
             case 'N':
-                cout << endl;
                 cout << "Thank you for playing the game of fifteen!" << endl;
                 ans[0] = 'n';
                 break;
 
             default:
-                cin.clear();
                 cout << "Incorrect responce please try again" << endl;
                 ans[0] = WRONGVAL;
                 break;
@@ -524,12 +457,10 @@ char playAgain() {
         }
         else {
             cout << "Incorrect responce please try again" << endl;
-            cin.clear();
             ans[0] = WRONGVAL;
         }
 
     }
-    
     return ans[0];
 }
 
