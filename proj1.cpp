@@ -256,7 +256,7 @@ void printBoard(int board[MAXROW][MAXCOL]) {
         for (int col = 0; col < MAXCOL; col++) {
             int checkLen = findLen(board[row][col]);
             if (checkLen == 1) {
-                // changes here
+                // start out with a tab 
                 addSpaces(numSpace + 1);
                 cout << board[row][col] << SPACE << H_BAR;
             }
