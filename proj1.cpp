@@ -7,11 +7,11 @@
 ** E-mail: rkline2@umbc.edu
 **
 ** This program is based off of the game "fifteen"
-** where the user will be manipulating a scrambled board.    
-** The user must have the tiles in decending order from  
-** the left-hand corner to the bottom right-hand corner. 
+** where the user will be manipulating a scrambled board.
+** The user must have the tiles in decending order from
+** the left-hand corner to the bottom right-hand corner.
 ** The program will detect if the user has won the game or not
-** as well as many other input validations.  
+** as well as many other input validations.
 **
 *********************************************/
 
@@ -150,6 +150,10 @@ void startGame(int board[MAXROW][MAXCOL]) {
         cout << "Would you like to load a board? \n"
             << "1. Yes \n" << "2. No \n";
         cin >> selectBoard;
+        if (selectBoard != 1 && selectBoard != 2) {
+            cin.clear();
+            cin.ignore(MAXELMNT, '\n');
+        }
     } while (selectBoard != 1 && selectBoard != 2);
     if (selectBoard == 1) {
         cout << "What is the file name? " << endl;
@@ -287,23 +291,23 @@ int findLen(int testNum) {
 }
 
 char checkWinner(int board[MAXROW][MAXCOL]) {
-    char isWinner = 'W';
+    char isWinner = WINNER;
     for (int row = 0; row < MAXROW; row++) {
         for (int col = 0; col < MAXCOL; col++) {
             if (col + 1 < MAXCOL && row != MAXROW - 1) {
                 int testValue = board[row][col + 1];
                 if ((testValue - board[row][col]) != 1) {
-                    isWinner = 'L';
+                    isWinner = LOSER;
                 }
             }
             else if (col == MAXCOL - 1 && row != MAXROW - 1) {
                 int testValue = board[row + 1][0];
                 if ((testValue - board[row][col]) != 1) {
-                    isWinner = 'L';
+                    isWinner = LOSER;
                 }
             }
             else if ((col == MAXCOL - 1 && row == MAXROW - 1) && (board[row][col] != 0)) {
-                isWinner = 'L';
+                isWinner = LOSER;
             }
         }
     }
@@ -327,8 +331,10 @@ void swapTile(int board[MAXROW][MAXCOL], int usrRow, int usrCol) {
 void selectTile(int board[MAXROW][MAXCOL]) {
     int usrRow = 0;
     int usrCol = 0;
-    char checkVal = 'N';
+    char checkVal = NO;
     bool isValidCoord = true;
+
+
     do
     {
         printBoard(board);
@@ -343,20 +349,21 @@ void selectTile(int board[MAXROW][MAXCOL]) {
         {
         case 'y':
         case 'Y':
-            checkVal = 'Y';
+            checkVal = YES;
             break;
         case 'n':
         case 'N':
             cout << "Okay" << endl;
-            checkVal = 'N';
+            checkVal = NO;
             break;
         default:
             cout << "Invald input" << endl;
-            cin.clear();
-            checkVal = 'N';
+                cin.clear();
+                cin.ignore(MAXELMNT, '\n');
+            checkVal = NO;
             break;
         }
-        if (checkVal == 'Y') {
+        if (checkVal == YES) {
             usrRow--;
             usrCol--;
             isValidCoord = checkDirection(board, usrRow, usrCol);
@@ -364,7 +371,7 @@ void selectTile(int board[MAXROW][MAXCOL]) {
                 cout << "Coordinates are not valid" << endl;
             }
         }
-    } while (checkVal != 'Y' || isValidCoord == false);
+    } while (checkVal != YES || isValidCoord == false);
 
     cout << endl;
     // Swap the tiles
@@ -504,13 +511,13 @@ char playAgain() {
             case 'Y':
                 cout << endl;
                 cout << "Loading a new game..." << endl;
-                ans[0] = 'y';
+                ans[0] = YES;
                 break;
             case 'n':
             case 'N':
                 cout << endl;
                 cout << "Thank you for playing the game of fifteen!" << endl;
-                ans[0] = 'n';
+                ans[0] = NO;
                 break;
 
             default:
@@ -527,7 +534,7 @@ char playAgain() {
         }
 
     }
-    
+
     return ans[0];
 }
 
