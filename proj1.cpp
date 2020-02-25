@@ -144,7 +144,6 @@ void playGame() {
 void startGame(int board[MAXROW][MAXCOL]) {
     int selectBoard = 2;
     char fileName[MAXCHAR] = {};
-    int count = 0;
 
     cout << "Welcome to the Fifteen Game" << endl;
     do {
@@ -229,7 +228,6 @@ void createBar(int barLim, char symbol, int numSpaces) {
 
 void printBoard(int board[MAXROW][MAXCOL]) {
     int underBarLim = (MAXCOL * 3 + MAXCOL * 2);
-    int twoDig = 1;
     int numSpace = 2;
     for (int i = 1; i <= MAXCOL; i++) {
         if (i == 1) {
